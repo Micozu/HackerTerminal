@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hacker Terminal</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #000;
+      color: #fff; /* Initial text color (white) */
+      margin: 0;
+      padding: 0;
+      transition: color 0.01s ease; /* Smooth color transition */
+    }
+
+    .terminal {
+      width: 600px;
+      height: 400px;
+      background-color: #000;
+      border: 2px solid #0F0;
+      border-radius: 5px;
+      overflow: hidden;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .header {
+      background-color: #111;
+      padding: 5px;
+      text-align: right;
+    }
+
+    .header span {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-left: 5px;
+    }
+
+    .content {
+      padding: 10px;
+      height: calc(100% - 50px);
+      overflow-y: scroll;
+    }
+
+    input[type="text"] {
+      width: calc(100% - 20px);
+      padding: 5px;
+      margin: 5px 0;
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid #0F0;
+      color: #0F0;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+    }
+
+    input[type="text"]::placeholder {
+      color: #0F0;
+    }
+
+    #output {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="header">
+      <span class="close"></span>
+      <span class="minimize"></span>
+      <span class="maximize"></span>
+    </div>
+    <div class="content" id="terminal-content">
+      <p>Welcome to Hacker Terminal v1.0</p>
+      <p>Type 'help' for a list of commands.</p>
+      <p id="output"></p>
+      <input type="text" id="command-line" placeholder="Enter command...">
+    </div>
+  </div>
+
+  <script>
+    const terminalText = document.querySelector('.terminal');
+    const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3']; // Rainbow color codes
+    let currentIndex = 0;
+
+    function changeColor() {
+      terminalText.style.color = colors[currentIndex];
+      currentIndex = (currentIndex + 1) % colors.length;
+    }
+
+    setInterval(changeColor, 500); // Change color every second (1000 milliseconds)
+
+    const commandLine = document.getElementById("command-line");
+    const output = document.getElementById("output");
+    commandLine.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const command = commandLine.value;
+        executeCommand(command);
+        commandLine.value = "";
+      }
+    });
+
+    function executeCommand(command) {
+      const outputText = document.createElement("p");
+      outputText.textContent = command;
+      output.appendChild(outputText);
+      output.scrollTop = output.scrollHeight;
+
+      switch (command) {
+        case "help":
+          outputText.textContent = "Available commands: help, date, ls, pwd, cd, mkdir, mv, cp, rm, touch, ln, cat, clear, echo, less, man, uname, whoami, tar, grep, head, tail, diff, cmp, comm, sort, export, zip, unzip, ssh, service, ps, kill, killall, df, mount, chmod, chown, ifconfig, traceroute, wget, ufw, iptables, apt, pacman, yum, rpm, sudo, cal, alias, dd, whereis, whatis, top, useradd, usermod, passwd, git clone, pip install";
+          break;
+        case "date":
+          outputText.textContent = new Date().toString();
+          break;
+        case "ls":
+          outputText.textContent = "file1.txt file2.txt file3.txt";
+          break;
+        case "pwd":
+          outputText.textContent = "/home/user";
+          break;
+        case "cd":
+          outputText.textContent = "Navigated to directory.";
+          break;
+        case "mkdir":
+          outputText.textContent = "Directory created.";
+          break;
+        case "mv":
+          outputText.textContent = "File moved.";
+          break;
+        case "cp":
+          outputText.textContent = "File copied.";
+          break;
+        case "rm":
+          outputText.textContent = "File removed.";
+          break;
+        case "touch":
+          outputText.textContent = "File created.";
+          break;
+        case "ln":
+          outputText.textContent = "Symbolic link created.";
+          break;
+        case "cat":
+          outputText.textContent = "File content displayed.";
+          break;
+        case "clear":
+          output.innerHTML = "";
+          return;
+        case "echo":
+          outputText.textContent = "Text displayed.";
+          break;
+        case "less":
+          outputText.textContent = "Paged outputs displayed in the terminal.";
+          break;
+        case "man":
+          outputText.textContent = "Manual pages accessed.";
+          break;
+        // Add other cases for commands here...
+
+        default:
+          outputText.textContent = "Command not found. Type 'help' for a list of commands.";
+      }
+
+      output.appendChild(outputText);
+      output.scrollTop = output.scrollHeight;
+    }
+  </script>
+  <p>Made By Micozu</p>
+</body>
+</html>
